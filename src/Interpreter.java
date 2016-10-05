@@ -6,16 +6,16 @@ import java.util.Stack;
  * An incredibly simple brainfuck interpreter.
  */
 public class Interpreter {
-  byte[] memory;
-  byte[] inputBuffer;
-  int head;
-  HashMap<Integer, Integer> brackets;
+  private byte[] memory;
+  private byte[] inputBuffer;
+  private int head;
+  private HashMap<Integer, Integer> brackets;
 
   /**
    * Constructs an Interpreter with the given memory limit
    * @param size The size to set the array length to
    */
-  Interpreter(int size) {
+  private Interpreter(int size) {
     memory = new byte[size];
     inputBuffer = new byte[1];
     head = 0;
@@ -25,7 +25,7 @@ public class Interpreter {
   /**
    * Constructs an Interpreter with a default size of 30,000
    */
-  Interpreter() {
+  private Interpreter() {
     this(30000);
   }
 
@@ -34,7 +34,7 @@ public class Interpreter {
    * loop computation
    * @param input the brainfuck to interpret
    */
-  void preProcess(char[] input) {
+  private void preProcess(char[] input) {
     brackets = new HashMap<>();
     Stack<Integer> stack = new Stack<>();
     for(int i = 0; i < input.length; i++) {
@@ -74,18 +74,18 @@ public class Interpreter {
    * @param input the branfuck code to interpret
    * @throws IOException
    */
-  void interpret(char[] input) throws IOException {
+  private void interpret(char[] input) throws IOException {
     preProcess(input);
     int i = 0;
     while (i < input.length) {
       switch (input[i]) {
         case '+':
           // add it and modulo 256.
-          memory[head] = (byte) Math.floorMod(memory[head] + 1, 256);
+          memory[head] = (byte)((memory[head] + 1) % 256);
           break;
         case '-':
           // substract it and modulo 256.
-          memory[head]= (byte) Math.floorMod(memory[head] - 1, 256);
+          memory[head]= (byte)((memory[head] - 1) % 256);
           break;
         case '<':
           if (head == 0) {
